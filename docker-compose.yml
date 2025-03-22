@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Base Image (Build Once)
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: base_backend_image 
+    command: echo "Base image built"
+
+  # Flask Backend (Runs API)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    depends_on:
+      - base
+      - db
+      - redis
+    ports:
+      - "5000:5000"
+  
+  # Celery Worker (Handles Background Tasks)
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    depends_on:
+      - base
+      - redis
+  
+  # MySQL Database
+  db:
+    image: mysql:5.7
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  
+  # Redis for Celery
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend  
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  db_data:

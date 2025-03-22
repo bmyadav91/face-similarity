@@ -1,0 +1,13 @@
+# Use the prebuilt base image
+FROM base_backend_image
+
+WORKDIR /app
+
+# Copy application code 
+COPY . .  
+
+# Expose Flask API port
+EXPOSE 5000
+
+# Start Flask with Gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]

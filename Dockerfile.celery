@@ -1,0 +1,10 @@
+# Use the prebuilt base image
+FROM base_backend_image
+
+WORKDIR /app
+
+# Copy application code 
+COPY . .  
+
+# Start Celery worker
+CMD ["celery", "-A", "run.celery", "worker", "--loglevel=info"]

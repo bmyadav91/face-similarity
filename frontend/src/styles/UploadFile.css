@@ -1,0 +1,204 @@
+.container{
+    margin: 30px 20px 20px 20px;
+}
+@media screen and (max-width: 600px) {
+    .container {
+        margin: 20px 10px 10px 10px;
+    }
+}
+.accordion {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.accordion-item {
+    border-bottom: 1.5px solid #b0eeff;
+    ;
+}
+
+.accordion-item:last-child {
+    border-bottom: none;
+}
+
+.accordion-header {
+    background-color: var(--white-color);
+    padding: 12px 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-header .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--black-color);
+}
+
+.accordion-item.active>.accordion-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accordion-item .accordion-content {
+    display: none;
+    background-color: white;
+}
+
+.accordion-item.active .accordion-content>.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accordion-item.active .icon {
+    content: '-';
+}
+
+.accordion .icon {
+    font-weight: bold;
+}
+
+/* .accordion content  */
+.accordion-content {
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------file upload css---------------------------------- */
+.upload-area {
+    border: 2px dashed #ccc;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    color: #777;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-area.drag-over {
+    border-color: #7a86f2;
+    background-color: #f9f9f9;
+}
+
+.upload-area:hover {
+    border-color: #7a86f2;
+}
+
+.upload-area label {
+    font-size: 1em;
+    cursor: pointer;
+}
+
+
+/* ----------------------------------------------upoad file status-------------------------- */
+.upload_status_container {
+    background-color: white;
+    /* padding: 10px 0; */
+    display: flex;
+    flex-direction: column;
+}
+
+.upload_status_container .file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    gap: 7px;
+}
+
+.upload_status_container .file-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #7289DA;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.upload_status_container .file-details {
+    flex-grow: 1;
+}
+
+.upload_status_container .file-name {
+    font-weight: 500;
+}
+
+.upload_status_container .progress-bar {
+    height: 5px;
+    background-color: #ddd;
+    border-radius: 3px;
+    margin-top: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.upload_status_container .progress {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 3px;
+    width: 100%;
+    transition: width 0.3s linear;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload_status_container .progress::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-image: linear-gradient(45deg,
+            rgba(255, 255, 255, 0.3) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.3) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 20px 20px;
+    animation: moveStripes 1s linear infinite;
+}
+
+.upload_status_container .progress.success::before {
+    animation: none;
+}
+
+@keyframes moveStripes {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 20px 0;
+    }
+}
+
+.upload_status_container .file-status {
+    font-size: small;
+    color: gray;
+}
+
+.upload_status_container .cancel-button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: large;
+    color: gray;
+}

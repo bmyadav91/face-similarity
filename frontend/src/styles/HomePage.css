@@ -1,0 +1,48 @@
+
+/* ------------------------------------categories-------------------------------------------- */
+
+.categoriesss {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    text-align: center;
+    padding: 10px;
+}
+
+.categoriesss a {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.categoriesss .cats {
+    width: 70px;
+    margin: 10px 20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+.categoriesss .cats img {
+    max-width: 70px;
+    max-height: 70px;
+    min-height: 70px;
+    min-width: 70px;
+    border-radius: 50%;
+    border: 2px solid rgb(0, 164, 0);
+}
+
+.categoriesss .cats p {
+    text-align: justify;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+.categoriesss::-webkit-scrollbar {
+    display: none;
+}
+
+/*webkit for Edge */
+.categoriesss-ms-scrollbar {
+    display: none;
+}

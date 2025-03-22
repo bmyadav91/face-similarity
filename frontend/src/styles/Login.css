@@ -1,0 +1,131 @@
+
+/* --------------------------------------- login -------------------------------------  */
+.login_container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4070f4;
+    column-gap: 30px;
+}
+
+.login_container .form {
+    position: absolute;
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 6px;
+    background: #FFF;
+}
+
+.login_container .header {
+    font-size: 28px;
+    font-weight: 600;
+    color: #232836;
+    text-align: center;
+}
+
+.login_container form {
+    margin-top: 30px;
+}
+
+.login_container .form .field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 6px;
+}
+
+.login_container .field input,
+.login_container .field button {
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 6px;
+}
+
+.login_container .field input {
+    outline: none;
+    padding: 0 15px;
+    border: 1px solid#CACACA;
+}
+
+.login_container .field input:focus {
+    border-bottom-width: 2px;
+}
+.login_container .field button {
+    color: #fff;
+    background-color: #0171d3;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.login_container .field button:disabled{
+    background-color: #565959;
+    cursor: not-allowed;
+}
+
+.login_container .line {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 36px 0;
+    background-color: #d4d4d4;
+}
+
+.login_container .line::before {
+    content: 'Or';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF;
+    color: #8b8b8b;
+    padding: 0 15px;
+}
+
+
+.login_container .other-login-options button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: white !important;
+    color: black;
+    cursor: pointer;
+}
+
+.login_container .other-login-options button:disabled{
+    background: #565959;
+    cursor: not-allowed !important;
+}
+
+.login_container .field img {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+}
+
+.login_container .field img {
+    height: 20px;
+    width: 20px;
+    object-fit: cover;
+}
+
+.login_container .field {
+    border: 1px solid #CACACA;
+}
+
+@media screen and (max-width: 400px) {
+    .login_container .form {
+        padding: 20px 10px;
+    }
+}
+
+.login_container #otp_parent{
+    display: none;
+}

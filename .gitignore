@@ -1,0 +1,9 @@
+env/
+.env
+logs
+
+.pyc
+pyc
+__pycache__
+migrations/
+docker-compose ecr.yml

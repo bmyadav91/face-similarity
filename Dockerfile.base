@@ -1,0 +1,27 @@
+# Use the official Miniconda image as the base
+FROM continuumio/miniconda3:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Set the shell to bash (important for Conda activation)
+SHELL ["/bin/bash", "-c"]
+
+# Copy the Conda environment file
+COPY environment.yml .
+
+# Install Conda environment and clean up
+RUN conda env create --prefix /app/env -f environment.yml && conda clean --all -y
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0
+
+
+# Fix Conda activation issue
+RUN echo "source activate /app/env" >> ~/.bashrc
+
+# Set the environment path
+ENV PATH="/app/env/bin:$PATH"
+
+# Store this image
+CMD ["echo", "Base image ready"]

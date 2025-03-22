@@ -1,0 +1,112 @@
+/* Background overlay */
+.add_to_face_parent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+/* Bottom Sheet Modal */
+.modal {
+    width: 100%;
+    background: white;
+    border-radius: 20px 20px 0 0; 
+    padding: 16px;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+/* Close Button */
+.close-btn {
+    cursor: pointer;
+    font-size: 22px;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+/* Scrollable content */
+.modal-content {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/* Album list */
+.album {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.album:hover {
+    background: #f3f3f3;
+}
+
+.album input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.album img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.album-details {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.album-title {
+    font-weight: bold;
+}
+
+.contained_items {
+    font-size: 12px;
+    color: gray;
+}
+
+/* Show More Button */
+.show_more_btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 2px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+}
+
+.show_more_btn:hover {
+    background-color: #e0e0e0;
+}
