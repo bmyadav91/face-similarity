@@ -7,3 +7,4 @@ pyc
 __pycache__
 migrations/
 docker-compose ecr.yml
+.env.prod

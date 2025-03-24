@@ -117,14 +117,14 @@ GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET = google_auth_credential()
 def google_auth():
     try:
         allowed_origins = os.environ.get('ALLOWED_ORIGINS', '').split(',')
-        domain = request.args.get('domain', '').rstrip('/')
+        domain = request.args.get('domain', allowed_origins[0]).rstrip('/')
 
         # Validate the domain
         if domain not in allowed_origins:
             return jsonify({'success': False, 'message': 'Bad request'}), 400
 
         #  redirect URL
-        redirect_url = f"{domain}{url_for('auth.google_auth_callback')}"
+        redirect_url = f"{domain}{url_for('auth.google_auth_callback').replace('/api', '')}"
 
         # Generate Google Auth URL
         auth_url = (
@@ -149,9 +149,9 @@ def google_auth_callback():
         if not code:
             return jsonify({'success': False, 'message': 'Authorization code missing'}), 400
         
-        domain = request.args.get('domain', '').rstrip('/')
+        domain = request.args.get('domain', 'https://photos.whatbm.com').rstrip('/')
 
-        redirect_url = f"{domain}{url_for('auth.google_auth_callback')}"
+        redirect_url = f"{domain}{url_for('auth.google_auth_callback').replace('/api', '')}"
         if not redirect_url:
             return jsonify({'success': False, 'message': 'Redirect URL missing'}), 400
         
@@ -247,7 +247,7 @@ def google_auth_callback():
     except Exception as e:
         logging.error(f"Unexpected error: {e}")
         db.session.rollback()
-        return jsonify({'success': False, 'message': 'Something went wrong'}), 400
+        return jsonify({'success': False, 'message': {str(e)}}), 400
     
 
 

@@ -6,3 +6,6 @@ __pycache__/
 frontend/*
 !frontend/Dockerfile.frontend
 migrations/
+logs
+.env
+.env.prod

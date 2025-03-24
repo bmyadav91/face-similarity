@@ -15,10 +15,10 @@ def create_app():
     app.config.from_object(settings.Config)
 
     # site blueprint Register
-    app.register_blueprint(site)
+    app.register_blueprint(site, url_prefix="/api")
 
     # auth blueprint Register 
-    app.register_blueprint(auth)
+    app.register_blueprint(auth, url_prefix="/api")
 
     # Initialize the database with Flask app
     db.init_app(app)
