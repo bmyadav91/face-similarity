@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.whatbmphotos",
+            "sha256_cert_fingerprints": [
+                "66:8A:C2:D9:8E:4C:4F:FD:2E:05:90:BA:11:0A:4A:23:52:99:AA:6D:D7:CA:0A:C0:0A:A2:BD:8B:D7:14:56:49"
+            ]
+        }
+    }
+]

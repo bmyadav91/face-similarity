@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redirecting to App...</title>
+    <script>
+      window.onload = function () {
+        const token = new URLSearchParams(window.location.search).get('token');
+        const deepLink = `whatbmphotos://deeplink?token=${token}`;
+
+        // Attempt to open app
+        window.location = deepLink;
+
+        // After short timeout, redirect to web or Play Store or show error
+        setTimeout(() => {
+          alert("Failed to open app. Please try again. please choose another option");
+        }, 2000);
+      };
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to app...</p>
+  </body>
+</html>

@@ -19,6 +19,7 @@ from backend.app.funtions.send_email import send_email
 import hashlib
 import os
 
+Is_Access_Testing = os.getenv("IS_ACCESS_TESTING", "false").lower() == "true"
 # -------------------------------------Insert or Update User -------------------------------------
 
 def InsertOrUpdateUser(user_email):
@@ -35,7 +36,12 @@ def InsertOrUpdateUser(user_email):
             User.id, User.account_status, User.last_otp, User.login_attempt, User.login_at, User.name
         ).filter_by(email=user_email).first()
 
-        generated_otp = generate_otp()
+        # check if testing 
+        if Is_Access_Testing and user_email == 'mohityadavofficial056@gmail.com':
+            generated_otp = '1237'  # test OTP for testing user
+        else:
+            generated_otp = generate_otp()
+            
         hash_otp = hash_token(generated_otp)
 
         if user:
@@ -154,6 +160,7 @@ def verify_otp(user_email, otp):
                 response = make_response(jsonify({
                     'success': True, 
                     'access_token': access_token, 
+                    'refresh_token': refresh_token,
                     'message': 'OTP verified successfully', 
                     'need_name_update': NeedNameUpdate
                 }))
@@ -252,14 +259,14 @@ def RefreshToken(access_token, refresh_token):
         response = make_response(jsonify({"success": True, "access_token": new_access_token, "message": "Token refreshed successfully"}))
         
         # Set refresh token cookie
-        response.set_cookie(
-            "refresh_token",
-            refresh_token,
-            httponly=True,
-            secure=True,
-            samesite="Strict",
-            max_age=150 * 24 * 60 * 60  # 150 days
-        )
+        # response.set_cookie(
+        #     "refresh_token",
+        #     refresh_token,
+        #     httponly=True,
+        #     secure=True,
+        #     samesite="Strict",
+        #     max_age=150 * 24 * 60 * 60  # 150 days
+        # )
 
         return response
     

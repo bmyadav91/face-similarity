@@ -182,7 +182,7 @@ def object_key_extractor(url):
 def display_faces(user_id, page=1, per_page=10):
     try:
         faces = Face.query.filter(
-            Face.user_id == user_id, Face.face_count > 1
+            Face.user_id == user_id, Face.face_count > 0
         ).order_by(Face.face_count.desc()) \
             .paginate(page=page, per_page=per_page, error_out=False)
 
@@ -210,7 +210,7 @@ def display_faces(user_id, page=1, per_page=10):
 def display_gallery(user_id, page=1, per_page=20):
     try:
         photos = Photo.query.filter(Photo.user_id == user_id) \
-                            .order_by(Photo.created_at.desc()) \
+                            .order_by(Photo.id.desc()) \
                             .paginate(page=page, per_page=per_page, error_out=False)
 
         return {

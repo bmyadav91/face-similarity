@@ -103,10 +103,8 @@ const LoginPage = ({ isAuthenticated, setIsAuthenticated }) => {
     setIsLoading(true);
     let shouldEnableButton = true;
 
-    const currentDomain = window.location.origin;
-
-    try {
-      const response = await apiRequest({ API: `/google-auth?domain=${encodeURIComponent(currentDomain)}`, METHOD: "GET", ACCESS_TOKEN_REQUIRED: false });
+    try {     
+      const response = await apiRequest({ API: `/google-auth`, METHOD: "GET", ACCESS_TOKEN_REQUIRED: false });
 
       if (response.success && response.auth_url) {
         window.location.href = response.auth_url;
@@ -184,12 +182,14 @@ const LoginPage = ({ isAuthenticated, setIsAuthenticated }) => {
         <div className="line"></div>
 
         <div className="other-login-options">
+          {/* google login button */}
           <button onClick={handleGoogleLogin} className="field" disabled={isLoading}>
             <div>
               <img src={googleIcon} alt="Login with Google" />
               {isLoading ? "Logging in..." : "Login with Google"}
             </div>
           </button>
+          
         </div>
       </div>
     </section>

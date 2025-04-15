@@ -23,6 +23,7 @@ from datetime import datetime, timezone
 from backend.app.utils.decorator import login_required
 from backend.app.celery.celery_worker import delete_account_bg
 
+
 auth = Blueprint('auth', __name__)
 
 
@@ -62,9 +63,12 @@ def refresh_token():
         access_token = access_token.replace("Bearer ", "").strip()
 
         # Get refresh token from cookies
-        refresh_token = request.cookies.get('refresh_token')
+        refresh_token = request.headers.get('x-refresh-token', None)
         if not refresh_token:
-            return jsonify({"success": False, "message": "Unauthorized: Refresh token missing"}), 401
+            refresh_token = request.cookies.get('refresh_token', None)
+
+        if not refresh_token:
+            return jsonify({"success": False, "message": "Unauthorized: Refresh token missing or invalid"}), 401
 
         # Process token refresh
         return RefreshToken(access_token, refresh_token)
@@ -112,16 +116,15 @@ def google_auth_credential():
     return os.environ.get('GOOGLE_CLIENT_ID'), os.environ.get('GOOGLE_CLIENT_SECRET')
 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET = google_auth_credential()
 
+# allowed domains 
+allowed_origins = os.environ.get('ALLOWED_ORIGINS', '').split(',')
+
 # build google auth url 
 @auth.route('/google-auth', methods=['GET'])
 def google_auth():
     try:
-        allowed_origins = os.environ.get('ALLOWED_ORIGINS', '').split(',')
         domain = request.args.get('domain', allowed_origins[0]).rstrip('/')
-
-        # Validate the domain
-        if domain not in allowed_origins:
-            return jsonify({'success': False, 'message': 'Bad request'}), 400
+        auth_type = request.args.get('auth_type', 'web')
 
         #  redirect URL
         redirect_url = f"{domain}{url_for('auth.google_auth_callback').replace('/api', '')}"
@@ -133,6 +136,7 @@ def google_auth():
             f'redirect_uri={redirect_url}&'
             'scope=email profile&'
             'response_type=code'
+            f'&state={auth_type}'
         )
 
         return jsonify({'success': True, 'message': 'Google auth URL generated', 'auth_url': auth_url})
@@ -149,9 +153,12 @@ def google_auth_callback():
         if not code:
             return jsonify({'success': False, 'message': 'Authorization code missing'}), 400
         
-        domain = request.args.get('domain', 'https://photos.whatbm.com').rstrip('/')
+        domain = request.args.get('domain', allowed_origins[0]).rstrip('/')
+        auth_type = request.args.get('state', 'web')
+
 
         redirect_url = f"{domain}{url_for('auth.google_auth_callback').replace('/api', '')}"
+        
         if not redirect_url:
             return jsonify({'success': False, 'message': 'Redirect URL missing'}), 400
         
@@ -231,25 +238,35 @@ def google_auth_callback():
             new_user.token_hash = hash_token(refresh_token) 
             db.session.commit()
 
-        # Create response
-        response = make_response(jsonify({'success': True, 'access_token': access_token, 'message': 'Account signed in successfully'}))
-        response.set_cookie(
-            "refresh_token",
-            refresh_token,
-            httponly=True,
-            secure=True,  # Ensure HTTPS in production
-            samesite="Lax",  # Prevents CSRF, but allows login flow
-            max_age=150 * 24 * 60 * 60  # 150 days in seconds
-        )
+        # Create response directly using jsonify
+        response_data = {
+            'success': True,
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'auth_type': auth_type,
+            'message': 'Account signed in successfully'
+        }
 
-        return response
+        response = jsonify(response_data)
+
+        # If not app_redirect_url, set the refresh token cookie
+        if auth_type != 'app':
+            response.set_cookie(
+                "refresh_token",
+                refresh_token,
+                httponly=True,
+                secure=True,
+                samesite="Lax",
+                max_age=150 * 24 * 60 * 60
+            )
+
+        return response    
 
     except Exception as e:
         logging.error(f"Unexpected error: {e}")
         db.session.rollback()
         return jsonify({'success': False, 'message': {str(e)}}), 400
     
-
 
 
 # ------------------------------- change name ------------------------------------- 

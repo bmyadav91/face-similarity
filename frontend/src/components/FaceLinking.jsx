@@ -20,7 +20,7 @@ const FaceLinking = ({ photo_id, onClose }) => {
             if (response.success) {
                 setHasMoreFaces(response.has_next || false);
                 setPage(response.page || page);
-                setFaces((prev) => [...prev, ...response.faces]); // Fixed line
+                setFaces((prev) => [...prev, ...response.faces]); 
             } else {
                 showToast(response.message || "Failed to fetch faces", "error");
             }
